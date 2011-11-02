@@ -3,7 +3,8 @@ manpage(pipebench)(1)(18th Apr, 2003)(pipebench)()
 manpagename(pipebench)(Shows speed of stdin/stdout communication)
 
 manpagesynopsis()
-    bf(pipebench) [ -ehqQor ] [ -s em(file) | -S em(file) ] [ -b em(bufsize) ]
+    bf(pipebench) [ -ehqQIoru ] [ -s em(file) | -S em(file) ] 
+	[ -b em(bufsize) ]
 
 manpagedescription()
     Measures the speed of stdin/stdout communication.
@@ -25,6 +26,7 @@ startdit()
     dit(-s em(file)) Write status to em(file) instead of stderr.
     dit(-S em(file)) Write status to em(file) instead of stderr.
     dit(-I) Use 1kB = 1000B, instead of the default 1024B.
+    dit(-u) Don't convet to units (kilo, Mega, etc...)
 
 manpagesection(EXAMPLES)
    bf(Benchmark and show progress of backup) nl()

@@ -1,4 +1,4 @@
-/* $Id: pipebench.c,v 1.9 2003/04/18 19:35:32 marvin Exp $
+/* $Id: pipebench.c,v 1.12 2003/04/20 16:45:45 marvin Exp $
  *
  * Pipebench
  *
@@ -32,8 +32,16 @@
 #include <signal.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <errno.h>
 
-static float version = 0.30;
+#ifdef sun
+#define u_int8_t uint8_t
+#define u_int16_t uint16_t
+#define u_int32_t uint32_t
+#define u_int64_t uint64_t
+#endif
+
+static float version = 0.40;
 
 static volatile int done = 0;
 
@@ -56,10 +64,12 @@ static void sigint(int n)
  *    *and*
  *       2) nunit < 100       (which it should never be)
  */
-static char *unitify(u_int64_t _in, char *buf, int max, unsigned long nunit)
+static char *unitify(u_int64_t _in, char *buf, int max, unsigned long nunit,
+		     int dounit)
 {
 	int e = 0;
 	u_int64_t in;
+	double inf;
 	char *unit = "";
 	char *units[] = {
 		"",
@@ -70,25 +80,31 @@ static char *unitify(u_int64_t _in, char *buf, int max, unsigned long nunit)
 		"P",
 		"E",
 	};
-	in = _in;
-	if (in > (nunit*nunit)) {
-		e++;
-		in/=nunit;
-	}
-	in *= 100;
-	while (in > (100*nunit)) {
-		e++;
-		in/=nunit;
-	}
-	/* Ha ha ha ha ha ha, oh my god... Yeah I wish I had the problem this
-	 * part fixes.
-	 */
-	while (e && (e >= (sizeof(units)/sizeof(char*)))) {
+	int fra = 0;
+
+	inf = in = _in;
+	if (dounit) {
+		if (in > (nunit*nunit)) {
+			e++;
+			in/=nunit;
+		}
+		in *= 100;
+		while (in > (100*nunit)) {
+			e++;
+			in/=nunit;
+		}
+		/* Ha ha ha ha ha ha, oh my god... Yeah I wish I had the
+		 * problem this part fixes.
+		 */
+		while (e && (e >= (sizeof(units)/sizeof(char*)))) {
 		e--;
 		in*=nunit;
+		}
+		unit = units[e];
+		inf = in / 100.0;
+		fra = 2;
 	}
-	unit = units[e];
-	snprintf(buf, max, "%7.2f %s",in/100.0,unit);
+	snprintf(buf, max, "%7.*f %s",fra,inf,unit);
 	return buf;
 }
 
@@ -124,8 +140,8 @@ static void usage(void)
 {
 	printf("Pipebench %1.2f, by Thomas Habets <thomas@habets.pp.se>\n",
 	       version);
-	printf("usage: <cmd> | pipebench [ -ehqQI ] [ -b <bufsize ] "
-	       "[ -s <file> | -S <file> ] \\\n             | <cmd>\n");
+	printf("usage: ... | pipebench [ -ehqQIoru ] [ -b <bufsize ] "
+	       "[ -s <file> | -S <file> ]\\\n           | ...\n");
 }
 
 /*
@@ -136,21 +152,24 @@ int main(int argc, char **argv)
 	int c;
 	u_int64_t datalen = 0,last_datalen = 0,speed = 0;
 	struct timeval start,tv,tv2;
-	char tdbuf[48];
-	char speedbuf[48];
+	char tdbuf[64];
+	char speedbuf[64];
+	char datalenbuf[64];
 	unsigned int bufsize = 819200;
 	int summary = 1;
 	int errout = 0;
 	int quiet = 0;
 	int fancy = 1;
+	int dounit = 1;
 	FILE *statusf;
 	int statusf_append = 0;
 	const char *statusfn = 0;
 	int unit = 1024;
+	char *buffer;
 
 	statusf = stderr;
 
-	while (EOF != (c = getopt(argc, argv, "ehqQb:ros:S:I"))) {
+	while (EOF != (c = getopt(argc, argv, "ehqQb:ros:S:Iu"))) {
 		switch(c) {
 		case 'e':
 			errout = 1;
@@ -186,6 +205,9 @@ int main(int argc, char **argv)
 		case 'I':
 			unit = 1000;
 			break;
+		case 'u':
+			dounit = 0;
+			break;
 		default:
 			usage();
 			return 1;
@@ -215,20 +237,25 @@ int main(int argc, char **argv)
 			return 1;
 		}
 	}
+	
+	while (!(buffer = malloc(bufsize))) {
+		perror("pipebench: malloc()");
+		bufsize>>=1;
+	}
+
 	while (!feof(stdin) && !done) {
 		int n;
-		char buffer[819200];
 		char ctimebuf[64];
-		char datalenbuf[32];
 
-		if (-1 == (n = fread(buffer, 1, sizeof(buffer), stdin))) {
+		if (-1 == (n = fread(buffer, 1, bufsize, stdin))) {
 			perror("pipebench: fread()");
 			if (errout) {
 				return 1;
 			}
+			continue;
 		}
 		datalen += n;
-		if (-1 == fwrite(buffer, n, 1, stdout)) {
+		while (-1 == fwrite(buffer, n, 1, stdout)) {
 			perror("pipebench: fwrite()");
 			if (errout) {
 				return 1;
@@ -249,12 +276,12 @@ int main(int argc, char **argv)
 			ctimebuf[n-1] = 0;
 		}
 		if (fancy && !quiet) {
-			fprintf(statusf, "%s: %sbytes %sB/second (%s)%c",
+			fprintf(statusf, "%s: %sB %sB/second (%s)%c",
 				time_diff(&start,&tv2,tdbuf,sizeof(tdbuf)),
 				unitify(datalen,datalenbuf,sizeof(datalenbuf),
-					unit),
+					unit,dounit),
 				unitify(speed,speedbuf,sizeof(speedbuf),
-					unit),
+					unit,dounit),
 				ctimebuf,
 				statusfn?'\n':'\r');
 		}
@@ -272,7 +299,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	
+	free(buffer);
 	if (summary) {
 		float n;
 
@@ -289,11 +316,13 @@ int main(int argc, char **argv)
 			"            "
 			"                              "
 			"%c"
-			"Summary:\nPiped %llu bytes in %s: %sB/second\n",
+			"Summary:\nPiped %sB in %s: %sB/second\n",
 			statusfn?'\n':'\r',
-			datalen,time_diff(&start,&tv2,tdbuf,sizeof(tdbuf)),
+			unitify(datalen,datalenbuf,sizeof(datalenbuf),
+				unit,dounit),
+			time_diff(&start,&tv2,tdbuf,sizeof(tdbuf)),
 			unitify(n?datalen/n:0,
-				speedbuf,sizeof(speedbuf),unit));
+				speedbuf,sizeof(speedbuf),unit,dounit));
 	}
 	return 0;
 }

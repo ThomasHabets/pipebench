@@ -4,7 +4,8 @@
 pipebench \- Shows speed of stdin/stdout communication
 .PP 
 .SH "SYNOPSIS" 
-\fBpipebench\fP [ -ehqQor ] [ -s \fIfile\fP | -S \fIfile\fP ] [ -b \fIbufsize\fP ]
+\fBpipebench\fP [ -ehqQIoru ] [ -s \fIfile\fP | -S \fIfile\fP ] 
+[ -b \fIbufsize\fP ]
 .PP 
 .SH "DESCRIPTION" 
 Measures the speed of stdin/stdout communication\&.
@@ -35,6 +36,8 @@ Write status to \fIfile\fP instead of stderr\&.
 Write status to \fIfile\fP instead of stderr\&.
 .IP "-I" 
 Use 1kB = 1000B, instead of the default 1024B\&.
+.IP "-u" 
+Don\&'t convet to units (kilo, Mega, etc\&.\&.\&.)
 .IP 
 .SH "EXAMPLES" 
 \fBBenchmark and show progress of backup\fP 

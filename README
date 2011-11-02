@@ -1,4 +1,4 @@
-$Id: README,v 1.9 2003/04/18 19:35:32 marvin Exp $
+$Id: README,v 1.10 2003/04/20 16:49:22 marvin Exp $
 
  Pipebench
 
@@ -48,6 +48,7 @@ x86      FreeBSD 4.7
 sparc    Debian GNU/Linux 3.0
 sparc    Solaris 9
 sparc64  OpenBSD 3.2
+alpha    Debian GNU/Linux 3.0
 alpha    NetBSD 1.5.2
 
 Some benchmarks
@@ -64,6 +65,7 @@ Arch     Box              Mhz   OS                                   Speed
 -------------------------------------------------------------------------------
 x86      Dual Athlon     1800   Slackware Linux 8.1 (2.4.19)        249.98 MBps
 x86      P-II             400   Debian GNU/Linux 3.0 (2.4.19)       146.97 MBps
+alpha    EV45             266   Debian GNU/Linux 3.0 (2.4.20)        53.05 MBps
 x86      K6-2             500   FreeBSD 4.7                          37.29 MBps
 sparc64  UltraSparc 5     270   OpenBSD 3.2                          27.47 MBps
 sparc    SparcStation 4   110   Debian GNU/Linux 3.0 (2.4.18)        17.51 MBps
