@@ -1,9 +1,9 @@
-manpage(pipebench)(1)(15th Dec, 2002)(pipebench)()
+manpage(pipebench)(1)(18th Apr, 2003)(pipebench)()
 
 manpagename(pipebench)(Shows speed of stdin/stdout communication)
 
 manpagesynopsis()
-    bf(pipebench) [ -ehqQor ] [ -b <bufsize> ]
+    bf(pipebench) [ -ehqQor ] [ -s em(file) | -S em(file) ] [ -b em(bufsize) ]
 
 manpagedescription()
     Measures the speed of stdin/stdout communication.
@@ -20,17 +20,25 @@ startdit()
     dit(-Q) Don't show running speed or summary stats. Same as -q -o. Can be
 	used to play with buffer size.
     dit(-o) Don't show summary.
-    dit(-b em(bufsize)) Use this buffer size.
+    dit(-b em(bufsize)) Use this buffer size, in bytes.
     dit(-r) Just show raw speed, no fancy stuff. And no summary.
+    dit(-s em(file)) Write status to em(file) instead of stderr.
+    dit(-S em(file)) Write status to em(file) instead of stderr.
+    dit(-I) Use 1kB = 1000B, instead of the default 1024B.
+
+manpagesection(EXAMPLES)
+   bf(Benchmark and show progress of backup) nl()
+   # (cd /home/; tar cf - .) | pipebench | (cd /mnt/backup/; tar xf -) nl()
+
+nsubsect()
+   bf(A number to brag to your friends about) nl()
+   $ dd if=/dev/zero bs=80k count=60k 2> /dev/null | ./pipebench -q > /dev/null
 
 manpagebugs()
-	No known bugs.  But there is no guarantee on the accuracy of the
-	benchmark.
+    No known bugs... yet.
 
 manpageseealso()
-
     bf(dd(1)), bf(cat(1))
 
 manpageauthor()
-
     Pipebench was written by Thomas Habets <thomas@habets.pp.se>

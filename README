@@ -1,4 +1,4 @@
-$Id: README,v 1.7 2003/01/12 22:11:53 marvin Exp $
+$Id: README,v 1.9 2003/04/18 19:35:32 marvin Exp $
 
  Pipebench
 
@@ -12,11 +12,11 @@ Measures the speed of stdin/stdout communication.
 
 Example uses
 ------------
-Benchmark and progress of backup:
+Benchmark and show progress of backup:
 # (cd /home/; tar cf - .) | pipebench | (cd /mnt/backup/; tar xf -)
 
-A number to brag with your friends about:
-$ dd if=/dev/zero bs=1k count=1024k 2> /dev/null | ./pipebench > /dev/null
+A number to brag to your friends about:
+$ dd if=/dev/zero bs=80k count=60k 2> /dev/null | ./pipebench -q > /dev/null
 
 
 Compiling
@@ -44,6 +44,7 @@ It's GPL, see the LICENSE file.
 Tested by me personally on
 --------------------------
 x86      Debian GNU/Linux 3.0
+x86      FreeBSD 4.7
 sparc    Debian GNU/Linux 3.0
 sparc    Solaris 9
 sparc64  OpenBSD 3.2
@@ -63,7 +64,8 @@ Arch     Box              Mhz   OS                                   Speed
 -------------------------------------------------------------------------------
 x86      Dual Athlon     1800   Slackware Linux 8.1 (2.4.19)        249.98 MBps
 x86      P-II             400   Debian GNU/Linux 3.0 (2.4.19)       146.97 MBps
-sparc64  Ultrasparc 5     270   OpenBSD 3.2                          27.47 MBps
+x86      K6-2             500   FreeBSD 4.7                          37.29 MBps
+sparc64  UltraSparc 5     270   OpenBSD 3.2                          27.47 MBps
 sparc    SparcStation 4   110   Debian GNU/Linux 3.0 (2.4.18)        17.51 MBps
 sparc    SparcStation 4   110   Solaris 9                             5.93 MBps
 alpha    DEC 3000/300LX   125   NetBSD 1.5.2                          4.67 Mbps

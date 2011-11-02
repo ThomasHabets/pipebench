@@ -1,10 +1,10 @@
-.TH "pipebench" "1" "15th Dec, 2002" "pipebench" "" 
+.TH "pipebench" "1" "18th Apr, 2003" "pipebench" "" 
 .PP 
 .SH "NAME" 
 pipebench \- Shows speed of stdin/stdout communication
 .PP 
 .SH "SYNOPSIS" 
-\fBpipebench\fP [ -ehqQor ] [ -b <bufsize> ]
+\fBpipebench\fP [ -ehqQor ] [ -s \fIfile\fP | -S \fIfile\fP ] [ -b \fIbufsize\fP ]
 .PP 
 .SH "DESCRIPTION" 
 Measures the speed of stdin/stdout communication\&.
@@ -26,18 +26,32 @@ used to play with buffer size\&.
 .IP "-o" 
 Don\&'t show summary\&.
 .IP "-b \fIbufsize\fP" 
-Use this buffer size\&.
+Use this buffer size, in bytes\&.
 .IP "-r" 
 Just show raw speed, no fancy stuff\&. And no summary\&.
+.IP "-s \fIfile\fP" 
+Write status to \fIfile\fP instead of stderr\&.
+.IP "-S \fIfile\fP" 
+Write status to \fIfile\fP instead of stderr\&.
+.IP "-I" 
+Use 1kB = 1000B, instead of the default 1024B\&.
+.IP 
+.SH "EXAMPLES" 
+\fBBenchmark and show progress of backup\fP 
+.br 
+# (cd /home/; tar cf - \&.) | pipebench | (cd /mnt/backup/; tar xf -) 
+.br 
+.IP 
+.SH "" 
+\fBA number to brag to your friends about\fP 
+.br 
+$ dd if=/dev/zero bs=80k count=60k 2> /dev/null | \&./pipebench -q > /dev/null
 .IP 
 .SH "BUGS" 
-No known bugs\&.  But there is no guarantee on the accuracy of the
-benchmark\&.
+No known bugs\&.\&.\&. yet\&.
 .IP 
 .SH "SEE ALSO" 
-.IP 
 \fBdd(1)\fP, \fBcat(1)\fP
 .IP 
 .SH "AUTHOR" 
-.IP 
 Pipebench was written by Thomas Habets <thomas@habets\&.pp\&.se>
