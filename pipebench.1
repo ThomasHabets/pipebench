@@ -1,0 +1,43 @@
+.TH "pipebench" "1" "15th Dec, 2002" "pipebench" "" 
+.PP 
+.SH "NAME" 
+pipebench \- Shows speed of stdin/stdout communication
+.PP 
+.SH "SYNOPSIS" 
+\fBpipebench\fP [ -ehqQor ] [ -b <bufsize> ]
+.PP 
+.SH "DESCRIPTION" 
+Measures the speed of stdin/stdout communication\&.
+.PP 
+.SH "OPTIONS" 
+.PP 
+.IP 
+.IP "-h" 
+Displays a help message and exits\&.
+.IP "-e" 
+If an error occurs, exit (breaking the pipe between stdin and
+stdout\&. By default an error message is printed to stderr and the
+program continues\&.
+.IP "-q" 
+Only show summary stats\&.
+.IP "-Q" 
+Don\&'t show running speed or summary stats\&. Same as -q -o\&. Can be
+used to play with buffer size\&.
+.IP "-o" 
+Don\&'t show summary\&.
+.IP "-b \fIbufsize\fP" 
+Use this buffer size\&.
+.IP "-r" 
+Just show raw speed, no fancy stuff\&. And no summary\&.
+.IP 
+.SH "BUGS" 
+No known bugs\&.  But there is no guarantee on the accuracy of the
+benchmark\&.
+.IP 
+.SH "SEE ALSO" 
+.IP 
+\fBdd(1)\fP, \fBcat(1)\fP
+.IP 
+.SH "AUTHOR" 
+.IP 
+Pipebench was written by Thomas Habets <thomas@habets\&.pp\&.se>

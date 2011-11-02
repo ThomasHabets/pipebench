@@ -1,0 +1,70 @@
+$Id: README,v 1.5 2002/12/15 19:58:37 marvin Exp $
+
+ Pipebench
+
+    By Thomas Habets <thomas@habets.pp.se>
+
+
+Introduction
+------------
+Measures the speed of stdin/stdout communication.
+
+
+Example uses
+------------
+Benchmark and progress of backup:
+# (cd /home/; tar cf - .) | pipebench | (cd /mnt/backup/; tar xf -)
+
+A number to brag with your friends about:
+$ dd if=/dev/zero bs=1k count=1024k 2> /dev/null | ./pipebench > /dev/null
+
+
+Compiling
+---------
+Just type 'make' to compile.
+
+Type 'make install' to have pipebench be installed in /usr/local/bin
+
+ 
+FAQ
+---
+Q: It doesn't compile!
+
+A: If you can fix it youself, do so and send me a patch.
+
+   If you can't, mail me and say what kind of system you have and I'll fix it.
+   I'll probably port it to anything anyone might want... except windows
+   of course. But hey, maybe it works on windows out of the box.
+---
+
+License
+-------
+It's GPL, see the LICENSE file.
+
+Tested by me personally on
+--------------------------
+x86      GNU/Linux
+sparc    GNU/Linux
+sparc64  OpenBSD 3.2
+alpha    NetBSD 1.5.2
+
+Some benchmarks
+---------------
+The same command run on a few different systems. No tweaking has been done
+on any of the boxen, except for custom kernel compiles on the Linux boxen.
+
+Command run:
+$ dd if=/dev/zero bs=80k count=[*]k 2>/dev/null | ./pipebench -q > /dev/null
+
+[*] Number suitable for the benchmark to take 30-60 seconds.
+
+Arch     Box              Mhz   OS                                   Speed
+-------------------------------------------------------------------------------
+x86      Dual Athlon     1800   Slackware 8.1 (2.4.19)              249.98 MBps
+x86      P-II             400   Debian GNU/Linux 3.0 (2.4.19)       146.97 MBps
+sparc64  Ultrasparc 5     270   OpenBSD 3.2                          27.47 MBps
+sparc    SparcStation 4   110   Debian GNU/Linux 3.0 (2.4.18)        17.51 MBps
+alpha    DEC 3000/300LX   125   NetBSD 1.5.2                          4.67 Mbps
+
+----------------------------------------------------------------------------
+Send questions/suggestions/patches/rants/money/alphas to thomas@habets.pp.se

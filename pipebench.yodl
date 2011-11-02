@@ -1,0 +1,36 @@
+manpage(pipebench)(1)(15th Dec, 2002)(pipebench)()
+
+manpagename(pipebench)(Shows speed of stdin/stdout communication)
+
+manpagesynopsis()
+    bf(pipebench) [ -ehqQor ] [ -b <bufsize> ]
+
+manpagedescription()
+    Measures the speed of stdin/stdout communication.
+
+manpageoptions()
+
+startdit()
+
+    dit(-h) Displays a help message and exits.
+    dit(-e) If an error occurs, exit (breaking the pipe between stdin and
+	stdout. By default an error message is printed to stderr and the
+	program continues.
+    dit(-q) Only show summary stats.
+    dit(-Q) Don't show running speed or summary stats. Same as -q -o. Can be
+	used to play with buffer size.
+    dit(-o) Don't show summary.
+    dit(-b em(bufsize)) Use this buffer size.
+    dit(-r) Just show raw speed, no fancy stuff. And no summary.
+
+manpagebugs()
+	No known bugs.  But there is no guarantee on the accuracy of the
+	benchmark.
+
+manpageseealso()
+
+    bf(dd(1)), bf(cat(1))
+
+manpageauthor()
+
+    Pipebench was written by Thomas Habets <thomas@habets.pp.se>
