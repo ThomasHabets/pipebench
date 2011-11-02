@@ -1,4 +1,4 @@
-/* $Id: pipebench.c,v 1.6 2002/12/15 19:58:37 marvin Exp $
+/* $Id: pipebench.c,v 1.8 2003/01/12 22:11:53 marvin Exp $
  *
  * Pipebench
  *
@@ -32,7 +32,11 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-static float version = 0.10;
+static float version = 0.20;
+
+#ifdef sun
+typedef uint64_t u_int64_t;
+#endif
 
 /*
  * Turn a 64 int into pseudo-SI units (1024 based). Two decimal places.
