@@ -43,4 +43,4 @@ manpageseealso()
     bf(dd(1)), bf(cat(1))
 
 manpageauthor()
-    Pipebench was written by Thomas Habets <thomas@habets.pp.se>
+    Pipebench was written by Thomas Habets <thomas@habets.se>

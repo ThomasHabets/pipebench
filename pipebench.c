@@ -1,8 +1,8 @@
-/* $Id: pipebench.c,v 1.12 2003/04/20 16:45:45 marvin Exp $
+/*
  *
  * Pipebench
  *
- * By Thomas Habets <thomas@habets.pp.se>
+ * By Thomas Habets <thomas@habets.se>
  *
  * Measures the speed of stdin/stdout communication.
  *
@@ -10,7 +10,7 @@
  *    -  Variable update time  (now just updates once a second)
  */
 /*
- *  Copyright (C) 2002 Thomas Habets <thomas@habets.pp.se>
+ *  Copyright (C) 2002 Thomas Habets <thomas@habets.se>
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public
@@ -138,7 +138,7 @@ static char *time_diff(struct timeval *start, struct timeval *end, char *buf,
  */
 static void usage(void)
 {
-	printf("Pipebench %1.2f, by Thomas Habets <thomas@habets.pp.se>\n",
+	printf("Pipebench %1.2f, by Thomas Habets <thomas@habets.se>\n",
 	       version);
 	printf("usage: ... | pipebench [ -ehqQIoru ] [ -b <bufsize ] "
 	       "[ -s <file> | -S <file> ]\\\n           | ...\n");
