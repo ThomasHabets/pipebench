@@ -26,7 +26,7 @@ startdit()
     dit(-s em(file)) Write status to em(file) instead of stderr.
     dit(-S em(file)) Write status to em(file) instead of stderr.
     dit(-I) Use 1kB = 1000B, instead of the default 1024B.
-    dit(-u) Don't convet to units (kilo, Mega, etc...)
+    dit(-u) Do not use SI prefixes like k for kilo.
 
 manpagesection(EXAMPLES)
    bf(Benchmark and show progress of backup) nl()
