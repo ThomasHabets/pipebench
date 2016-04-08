@@ -1,6 +1,6 @@
 # $Id: Makefile,v 1.2 2002/12/15 19:58:36 marvin Exp $
 
-CC=gcc
+CC?=$(CROSS_COMPILE)gcc
 CFLAGS=-Wall -w -pedantic
 
 all: pipebench
