@@ -1,13 +1,16 @@
 # $Id: Makefile,v 1.2 2002/12/15 19:58:36 marvin Exp $
 
-CC=gcc
-CFLAGS=-Wall -w -pedantic
+CC?=$(CROSS_COMPILE)gcc
+CFLAGS+=-Wall -w -pedantic
+PREFIX?=/usr/local
 
 all: pipebench
 doc: pipebench.1
 install: pipebench
-	cp pipebench /usr/local/bin/
-	cp pipebench.1 /usr/local/man/man1/
+	install pipebench -D $(PREFIX)/bin/pipebench
+	install pipebench.1 -D $(PREFIX)/man/man1/pipebench.1
+uninstall:
+	rm -f $(PREFIX)/bin/pipebench $(PREFIX)/man/man1/pipebench.1
 
 pipebench: pipebench.c
 	$(CC) $(CFLAGS) -o pipebench pipebench.c
@@ -15,5 +18,8 @@ pipebench: pipebench.c
 pipebench.1: pipebench.yodl
 	yodl2man -o pipebench.1 pipebench.yodl
 
+distclean: clean
+	rm -f pipebench pipebench.1
+
 clean:
-	rm -f pipebench *.o
+	rm -f *.o *~
