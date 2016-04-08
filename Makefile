@@ -9,6 +9,8 @@ doc: pipebench.1
 install: pipebench
 	install pipebench -D $(PREFIX)/bin/pipebench
 	install pipebench.1 -D $(PREFIX)/man/man1/pipebench.1
+uninstall:
+	rm -f $(PREFIX)/bin/pipebench $(PREFIX)/man/man1/pipebench.1
 
 pipebench: pipebench.c
 	$(CC) $(CFLAGS) -o pipebench pipebench.c
@@ -16,5 +18,8 @@ pipebench: pipebench.c
 pipebench.1: pipebench.yodl
 	yodl2man -o pipebench.1 pipebench.yodl
 
+distclean: clean
+	rm -f pipebench pipebench.1
+
 clean:
-	rm -f pipebench *.o
+	rm -f *.o *~
